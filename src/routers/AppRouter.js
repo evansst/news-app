@@ -15,7 +15,7 @@ const AppRouter = (props) => {
         <Switch>
 
           <Route exact path="/">
-            <LandingPage />
+            <LandingPage articles={props.articles}/>
           </Route>
 
 
