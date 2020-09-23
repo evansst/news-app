@@ -1,19 +1,39 @@
-import { Box, Container } from '@material-ui/core';
-import { flexbox } from '@material-ui/system';
+import { Grid } from '@material-ui/core';
+
+import { makeStyles } from '@material-ui/core/styles';
+
 import React from 'react';
 import NewsCard from './NewsCard';
 
 
+
 const NewsFeed = props => {
-  const { articles } = props
+  const { posts, user } = props
+  const classes = useStyles()
 
   return (
-    <Container>
-      {articles.map(article => {
-        return <NewsCard article={article} key={article.url}/>
-      })}
-    </Container>
+    <Grid
+      container
+      className={classes.root}
+      justify='center'
+      spacing={3}
+    >
+
+        {posts.map(post => {
+          return (
+            <Grid item  key={post.url}>
+              <NewsCard post={post} user={user}/>
+            </Grid>
+          )
+        })}
+    </Grid>
   );
 };
 
 export default NewsFeed;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '36px',
+  },
+}));

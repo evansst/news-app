@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactTinyLink } from 'react-tiny-link'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,31 +18,90 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import { upVoteURL } from '../helpers/requestHelper';
+import { Menu, MenuItem } from '@material-ui/core';
 
 
 const NewsCard = props => {
-  const { article } = props
+  const { post, user } = props
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+
+  const handleUpVoteClick = () => {
+    console.log('up-vote clicked!')
+    // fetch(upVoteURL, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //   },
+    //   body: {
+    //     up_vote: {
+    //       user_id: user.id,
+    //       post_id: post.id
+    //     }
+    //   }
+    // }) 
+  }
+
+  const handleDownVoteClick = () => {
+    console.log('down-vote clicked!')
+  }
+
+  const handleFavoriteClick = () => {
+    console.log('favorite clicked!')
+  }
+
+  const handleMoreClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMoreClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <Card className={classes.root} >
       <CardHeader
         avatar={
           <Avatar aria-label='title' className={classes.avatar}>
-            {article.title.charAt(0)}
+            {post.title.charAt(0)}
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-label="settings" onClick={handleMoreClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu 
+              id="long-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleMoreClose}
+              PaperProps={{
+                style: {
+                  maxHeight: 48 * 4.5,
+                  width: '20ch',
+                }
+              }}
+            >
+              <MenuItem key='report' onClick={() => {
+                handleMoreClose()
+                // do something else
+              }}>
+                Report
+              </MenuItem>
+            </Menu>
+          </>
         }
-        title={article.title}
-        subheader={`Posted on ${article.posted_date}`}
+        title={post.title}
+        subheader={`Posted on ${post.created_at.split('T')[0]}`}
        />
        <CardContent>
          <ReactTinyLink
-           url={article.url}
+           url={post.url}
            cardSize="large"
            showGraphic={true}
            maxLine={5}
@@ -50,15 +109,15 @@ const NewsCard = props => {
           />
        </CardContent>
        <CardActions disableSpacing>
-         <IconButton aria-label="up vote">
+         <IconButton aria-label="up vote" onClick={handleUpVoteClick}>
            <KeyboardArrowUp />
          </IconButton>
 
-         <IconButton aria-label="down vote">
+         <IconButton aria-label="down vote" onClick={handleDownVoteClick}>
            <KeyboardArrowDown />
          </IconButton>
 
-         <IconButton aria-label="add to favorites">
+         <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
           <FavoriteIcon />
          </IconButton>
        </CardActions>

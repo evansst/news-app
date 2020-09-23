@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   AppBar, 
   Toolbar, 
@@ -13,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { APPNAME } from '../serviceWorker';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
@@ -75,7 +76,7 @@ export default function MenuAppBar() {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Favorites</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
