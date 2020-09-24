@@ -34,6 +34,6 @@ export default NewsFeed;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '36px',
+    padding: '100px',
   },
 }));

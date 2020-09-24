@@ -12,7 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { APPNAME } from '../serviceWorker';
+import { APPNAME } from '../../serviceWorker';
 
 const useStyles = makeStyles(theme => ({
   root: {

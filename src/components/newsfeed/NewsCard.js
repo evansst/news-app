@@ -18,7 +18,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import { upVoteURL } from '../helpers/requestHelper';
+import { upVoteURL } from '../../helpers/requestHelper';
 import { Menu, MenuItem } from '@material-ui/core';
 
 
