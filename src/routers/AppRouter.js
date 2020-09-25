@@ -5,22 +5,31 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import HomePage from '../views/HomePage';
 import LandingPage from '../views/LandingPage';
+import LoginPage from '../views/LoginPage';
 
 
 const AppRouter = (props) => {
+  const { posts, user } = props
   return (
     <BrowserRouter>
-      <div>
         <Switch>
 
           <Route exact path="/">
-            <LandingPage />
+            <LandingPage/>
+          </Route>
+
+          <Route exact path="/home">
+            <HomePage posts={posts} />
+          </Route>
+
+          <Route exact path="/login">
+            <LoginPage />
           </Route>
 
 
         </Switch>
-      </div>
     </BrowserRouter>
   );
 };
