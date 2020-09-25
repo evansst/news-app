@@ -131,7 +131,7 @@ const LoginPage = props => {
                 <CardFooter className={classes.cardFooter}>
                   <Button type="submit" simple color="primary" size="lg">
                     Submit
-                  </Button>
+                  </Button>z
                 </CardFooter>
               </form>
             </Card>
