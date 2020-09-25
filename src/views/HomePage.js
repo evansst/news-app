@@ -1,6 +1,6 @@
 import React from 'react';
-import AccountButton from '../components/headers/buttons/AccountButton';
 import Header from '../components/headers/Header';
+import AccountButton from '../components/headers/buttons/AccountButton';
 import NewsFeed from '../components/newsfeed/NewsFeed';
 
 const HomePage = props => {

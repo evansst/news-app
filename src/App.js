@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 // import { Provider } from 'react-redux';
 import AppRouter from './routers/AppRouter.js';
 import { parseJSON, postsURL } from './helpers/requestHelper.js';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { grayColor } from './assets/material-kit-react.js';
+import { minHeight } from '@material-ui/system';
 
 
 const store = configureStore();
@@ -24,13 +25,11 @@ const App = () => {
   return (
     <div
       style={{
-        backgroundColor: grayColor
+        backgroundColor: grayColor,
       }}
     >
-      <ThemeProvider >
-        <CssBaseline />
-        <AppRouter posts={posts}/>
-      </ThemeProvider>
+      <CssBaseline />
+      <AppRouter posts={posts}/>
     </div>
   );
 }

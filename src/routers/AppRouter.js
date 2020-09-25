@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import HomePage from '../views/HomePage';
 import LandingPage from '../views/LandingPage';
+import LoginPage from '../views/LoginPage';
 
 
 const AppRouter = (props) => {
@@ -21,6 +22,10 @@ const AppRouter = (props) => {
 
           <Route exact path="/home">
             <HomePage posts={posts} />
+          </Route>
+
+          <Route exact path="/login">
+            <LoginPage />
           </Route>
 
 
