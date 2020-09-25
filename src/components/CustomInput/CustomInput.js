@@ -3,18 +3,22 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
+// @material-ui/icons
+import Clear from "@material-ui/icons/Clear";
+import Check from "@material-ui/icons/Check";
+// core components
 
-import styles from "assets/jss/material-kit-react/components/customInputStyle.js";
+import styles from "assets/jss/material-kit-pro-react/components/customInputStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function CustomInput(props) {
-  const classes = useStyles();
   const {
     formControlProps,
     labelText,
@@ -26,7 +30,7 @@ export default function CustomInput(props) {
     inputRootCustomClasses,
     success
   } = props;
-
+  const classes = useStyles();
   const labelClasses = classNames({
     [" " + classes.labelRootError]: error,
     [" " + classes.labelRootSuccess]: success && !error
@@ -53,6 +57,10 @@ export default function CustomInput(props) {
   } else {
     formControlClasses = classes.formControl;
   }
+  let newInputProps = {
+    maxLength: inputProps ? inputProps.maxLength:undefined,
+    minLength: inputProps ? inputProps.minLength:undefined
+  };
   return (
     <FormControl {...formControlProps} className={formControlClasses}>
       {labelText !== undefined ? (
@@ -73,7 +81,13 @@ export default function CustomInput(props) {
         }}
         id={id}
         {...inputProps}
+        inputProps={newInputProps}
       />
+      {error ? (
+        <Clear className={classes.feedback + " " + classes.labelRootError} />
+      ) : success ? (
+        <Check className={classes.feedback + " " + classes.labelRootSuccess} />
+      ) : null}
     </FormControl>
   );
 }

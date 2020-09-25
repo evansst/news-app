@@ -6,33 +6,31 @@ export const loginURL = `${baseURL}/login`
 
 export const parseJSON = (response) => response.json()
 
-export function login(event) {
+export async function login(event) {
   const username = event.target.username.value;
   const password = event.target.password.value;
 
-  fetch(loginURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      username: username,
-      password: password,
+  return await
+    fetch(loginURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      })
     })
-  })
-    .then(parseJSON)
-    .then(checkResponse)
+      .then(parseJSON)
+      .then(checkResponse)
 }   
 
 
 export function checkResponse(response) {
   const { user, token, message } = response;
-    
-  if(message) {
-    alert(message);
-  } else {
-    saveUser(user)(token)
-  }
+
+  if(user) saveUser(user)(token)
+  return response;
 }
 
 const saveUser = (user) => {
