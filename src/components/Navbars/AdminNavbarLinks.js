@@ -50,7 +50,7 @@ export default function HeaderLinks(props) {
     classNames({
       [classes.searchRTL]: rtlActive
     });
-  const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover, {
+  const dropdownItem = classNames(classes.dropdownItem, classes.dangerHover, {
     [classes.dropdownItemRTL]: rtlActive
   });
   const wrapper = classNames({

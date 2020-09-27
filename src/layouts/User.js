@@ -28,8 +28,7 @@ export default function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [miniActive, setMiniActive] = useState(false);
   // const [image, setImage] = useState(require("assets/img/sidebar-2.jpg"));
-  const [color, setColor] = useState("blue");
-  const [bgColor, setBgColor] = useState("black");
+  const [logo] = React.useState(require("assets/img/logo-white (1).png"));
   // const [hasImage, setHasImage] = useState(true);
 
   // styles
@@ -44,7 +43,7 @@ export default function Dashboard(props) {
     });
   // ref for main panel div
   const mainPanel = createRef();
-  // effect instead of componentDidMount, componentDidUpdate and componentWillUnmount
+
   useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
@@ -72,7 +71,7 @@ export default function Dashboard(props) {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
   const getActiveRoute = routes => {
-    let activeRoute = "Default Brand Text";
+    let activeRoute = "NewsApp";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].views);
@@ -120,13 +119,13 @@ export default function Dashboard(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Creative Tim"}
-        // logo={logo}
+        logoText={"NewsApp"}
+        logo={logo}
         // image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
-        color={color}
-        bgColor={bgColor}
+        color={"red"}
+        bgColor={"black"}
         miniActive={miniActive}
         {...rest}
       />
@@ -155,7 +154,7 @@ export default function Dashboard(props) {
             </Switch>
           </div>
         )}
-        {/* {getRoute() ? <Footer fluid /> : null} */}
+        <Footer fluid />
       </div>
     </div>
   );

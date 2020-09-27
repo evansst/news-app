@@ -1,6 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import Header from 'components/Header/Header'
-import AccountButton from 'components/headers/buttons/AccountButton';
 import NewsFeed from '../components/newsfeed/NewsFeed';
 import { parseJSON, postsURL } from 'helpers/requestHelper'
 const HomePage = props => {
@@ -16,7 +14,6 @@ const HomePage = props => {
   return (
     <div>
       <NewsFeed posts={posts} user={user}/>
-      
     </div>
   );
 };

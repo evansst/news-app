@@ -25,6 +25,25 @@ export async function login(event) {
       .then(checkResponse)
 }   
 
+export async function createUser(event) {
+  const username = event.target.username.value
+  const email = event.target.email.value
+  const password = event.target.email.value
+
+  return await
+    fetch(usersURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+        email
+      })
+    })
+}
+
 
 export function checkResponse(response) {
   const { user, token, message } = response;

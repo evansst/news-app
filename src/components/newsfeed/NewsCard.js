@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ReactTinyLink } from 'react-tiny-link'
 
+import { dangerColor } from 'assets/jss/material-dashboard-pro-react'
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
@@ -146,6 +148,6 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: dangerColor[0],
   },
 }));

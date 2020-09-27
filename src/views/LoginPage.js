@@ -1,146 +1,104 @@
-import React, {useState } from 'react'
-// import Header from '../components/headers/Header'
-import Header from 'components/Header/Header'
-import AccountButton from '../components/headers/buttons/AccountButton';
+import React from "react";
 
-import styles from 'assets/styles/loginPage'
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
+
+// @material-ui/icons
+import Face from "@material-ui/icons/Face";
+import Email from "@material-ui/icons/Email";
+// import LockOutline from "@material-ui/icons/LockOutline";
+
+// core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
+import { login } from "helpers/requestHelper"
 
-import { makeStyles } from '@material-ui/core/styles'
-import { grayColor } from '../assets/material-kit-react';
+import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
+import { People } from "@material-ui/icons";
 
-import { login } from '../helpers/requestHelper'
-import MuiAlert from '@material-ui/lab/Alert';
-import {
-  InputAdornment,
-  Icon,
-  Snackbar
-} from '@material-ui/core'
-import {
-  People
-} from '@material-ui/icons'
+const useStyles = makeStyles(styles);
 
+export default function LoginPage() {
+  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  React.useEffect(() => {
+    setCardAnimation("");
+  },[]);
+  const classes = useStyles();
 
-const useStyles = makeStyles(styles)
-
-const LoginPage = props => {
-  const [openLoginError, setOpenLoginError] = useState(false);
-  const classes = useStyles()
-  const { ...rest } = props
-
-
-  const handleBadLogin = () => {
-    setOpenLoginError(true)
-  }
-  const handleErrorAlertClose = (event, reason) => {
-    return reason === 'clickaway'
-      ? null
-      : setOpenLoginError(false)
+  const submitForm = event => {
+    event.preventDefault();
+    login(event)
+      .then((response) => console.log(response))
   }
 
   return (
-    <div>
-      <Header
-        color="info"
-        brand="NewsApp"
-        fixed
-        absolute
-        rightLinks={
-          <AccountButton />
-        }
-        { ...rest }
-      />
-
-      <Snackbar open={openLoginError} autoHideDuration={60} onClose={handleErrorAlertClose}>
-        <MuiAlert elevation={6} variant="filled" onClose={handleErrorAlertClose} severity="success">
-          <b>Error:</b> Incorrect username or password.
-        </MuiAlert>
-      </Snackbar>
-
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundColor: grayColor,
-          backgroundSize: "cover",
-          backgroundPosition: "top center"
-        }}
-      >
-      <div className={classes.container}>
-        <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={4}>
-            <Card className="">
-              <form
-                className={classes.form}
-                onSubmit={async (event) => {
-                  event.preventDefault();
-                  login(event)
-                    .then((response) => {
-                      if(response.message) handleBadLogin()
-                      return response
-                    })
-                    .then((response) => console.log(response))
-                }}
+    <div className={classes.container}>
+      <GridContainer justify="center">
+        <GridItem xs={12} sm={6} md={4}>
+          <form onSubmit={submitForm}>
+            <Card  className={classes[cardAnimaton]}>
+              <CardHeader
+                className={`${classes.cardHeader} ${classes.textCenter}`}
+                color="danger"
               >
-                <CardHeader color="primary" className={classes.cardHeader}>
-                  <h4>Login</h4>
-                </CardHeader>
-                <CardBody>
-                    <CustomInput
-                      labelText="Username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: 'username',
-                        name: 'username',
-                        required: true,
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <CustomInput
-                      labelText="Password"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        type: "password",
-                        autoComplete: "off",
-                        name: "password",
-                        required: true,
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Icon className={classes.inputIconsColor}>
-                              lock_outline
-                            </Icon>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                </CardBody>
-                <CardFooter className={classes.cardFooter}>
-                  <Button type="submit" simple color="primary" size="lg">
-                    Submit
-                  </Button>z
-                </CardFooter>
-              </form>
+                <h4 className={classes.cardTitle}>Log in</h4>
+                
+              </CardHeader>
+              <CardBody>
+                <CustomInput
+                  labelText="Username"
+                  id="username"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    type: 'username',
+                    name: 'username',
+                    required: true,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <People className={classes.inputAdornmentIcon} />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <CustomInput
+                  labelText="Password"
+                  id="password"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    type: 'password',
+                    name: 'password',
+                    required: true,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Icon className={classes.inputAdornmentIcon}>
+                          lock_outline
+                        </Icon>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </CardBody>
+              <CardFooter className={classes.justifyContentCenter}>
+                <Button type="submit" size="lg" block>
+                  Submit
+                </Button>
+              </CardFooter>
             </Card>
-          </GridItem>
-        </GridContainer>
-      </div>
-      </div>      
+          </form>
+        </GridItem>
+      </GridContainer>
     </div>
   );
-};
-
-export default LoginPage;
+}

@@ -25,6 +25,7 @@ import MonetizationOn from "@material-ui/icons/MonetizationOn";
 import Button from "components/CustomButtons/Button";
 
 import styles from "assets/jss/material-dashboard-pro-react/components/authNavbarStyle.js";
+import { Home, Person } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -45,35 +46,21 @@ export default function AuthNavbar(props) {
   var list = (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <NavLink to={"/admin/dashboard"} className={classes.navLink}>
-          <Dashboard className={classes.listItemIcon} />
+        <NavLink to={"/"} className={classes.navLink}>
+          <Home className={classes.listItemIcon} />
           <ListItemText
-            primary={"Dashboard"}
+            primary={"Home"}
             disableTypography={true}
             className={classes.listItemText}
           />
         </NavLink>
       </ListItem>
+      
       <ListItem className={classes.listItem}>
         <NavLink
-          to={"/auth/pricing-page"}
+          to={"/auth/register"}
           className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/pricing-page")
-          })}
-        >
-          <MonetizationOn className={classes.listItemIcon} />
-          <ListItemText
-            primary={"Pricing"}
-            disableTypography={true}
-            className={classes.listItemText}
-          />
-        </NavLink>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <NavLink
-          to={"/auth/register-page"}
-          className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/register-page")
+            [classes.navLinkActive]: activeRoute("/auth/register")
           })}
         >
           <PersonAdd className={classes.listItemIcon} />
@@ -86,29 +73,14 @@ export default function AuthNavbar(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <NavLink
-          to={"/auth/login-page"}
+          to={"/auth/login"}
           className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/login-page")
+            [classes.navLinkActive]: activeRoute("/auth/login")
           })}
         >
-          <Fingerprint className={classes.listItemIcon} />
+          <Person className={classes.listItemIcon} />
           <ListItemText
             primary={"Login"}
-            disableTypography={true}
-            className={classes.listItemText}
-          />
-        </NavLink>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <NavLink
-          to={"/auth/lock-screen-page"}
-          className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/lock-screen-page")
-          })}
-        >
-          <LockOpen className={classes.listItemIcon} />
-          <ListItemText
-            primary={"Lock"}
             disableTypography={true}
             className={classes.listItemText}
           />
@@ -121,15 +93,15 @@ export default function AuthNavbar(props) {
       <Toolbar className={classes.container}>
         <Hidden smDown>
           <div className={classes.flex}>
-            <Button href="#" className={classes.title} color="transparent">
+            <Button href="/" className={classes.title} color="transparent">
               {brandText}
             </Button>
           </div>
         </Hidden>
         <Hidden mdUp>
           <div className={classes.flex}>
-            <Button href="#" className={classes.title} color="transparent">
-              MD Pro React
+            <Button href="/" className={classes.title} color="transparent">
+              NewsApp
             </Button>
           </div>
         </Hidden>
