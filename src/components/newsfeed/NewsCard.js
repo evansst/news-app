@@ -5,7 +5,7 @@ import { dangerColor } from 'assets/jss/material-dashboard-pro-react'
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Card from '@material-ui/core/Card';
+import Card from 'components/Card/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 
 import CardContent from '@material-ui/core/CardContent';
@@ -110,18 +110,26 @@ const NewsCard = props => {
            minLine={3}
           />
        </CardContent>
-       <CardActions disableSpacing>
-         <IconButton aria-label="up vote" onClick={handleUpVoteClick}>
-           <KeyboardArrowUp />
-         </IconButton>
+       <CardActions justify="space-between">
+         <div>
+          <IconButton aria-label="up vote" onClick={handleUpVoteClick}>
+            <small>{post.up_votes.length}</small>
+            <KeyboardArrowUp />
+          </IconButton>
+         </div>
 
-         <IconButton aria-label="down vote" onClick={handleDownVoteClick}>
-           <KeyboardArrowDown />
-         </IconButton>
+        <div>
+          <IconButton aria-label="down vote" onClick={handleDownVoteClick}>
+            <KeyboardArrowDown />
+            <small>{post.down_votes.length}</small>
+          </IconButton>
+        </div>
 
-         <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
-          <FavoriteIcon />
-         </IconButton>
+        <div>
+          <IconButton aria-label="add to favorites" style={{ margineLeft: 'auto' }} onClick={handleFavoriteClick}>
+            <FavoriteIcon />
+          </IconButton>
+        </div>
        </CardActions>
     </Card>
   );

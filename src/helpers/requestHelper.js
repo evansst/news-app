@@ -6,6 +6,16 @@ export const loginURL = `${baseURL}/login`
 
 export const parseJSON = (response) => response.json()
 
+export async function getUser() {
+  const user_id = localStorage.user_id
+
+  if(user_id) {
+    return await fetch(`${usersURL}/${user_id}`).then(parseJSON).then(checkResponse)
+  } else {
+    return null;
+  }
+}
+
 export async function login(event) {
   const username = event.target.username.value;
   const password = event.target.password.value;
@@ -58,3 +68,4 @@ const saveUser = (user) => {
   
   return (token) => localStorage.setItem('token', token);
 }
+

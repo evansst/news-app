@@ -17,6 +17,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
+import { getUser } from "../helpers/requestHelper";
 
 var ps;
 
@@ -30,6 +31,8 @@ export default function Dashboard(props) {
   // const [image, setImage] = useState(require("assets/img/sidebar-2.jpg"));
   const [logo] = React.useState(require("assets/img/logo-white (1).png"));
   // const [hasImage, setHasImage] = useState(true);
+
+  const [user, setUser] = useState(getUser())
 
   // styles
   const classes = useStyles();
@@ -45,6 +48,8 @@ export default function Dashboard(props) {
   const mainPanel = createRef();
 
   useEffect(() => {
+    console.log(user)
+
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
         suppressScrollX: true,
