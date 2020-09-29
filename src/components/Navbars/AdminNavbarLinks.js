@@ -1,7 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-// import { Manager, Target, Popper } from "react-popper";
+import { useSelector } from 'react-redux';
+
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,11 +24,13 @@ import Search from "@material-ui/icons/Search";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
+import { userActions } from '_actions'
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  const user = useSelector(state => state.authentication.user.user)
   
   const [openProfile, setOpenProfile] = React.useState(null);
   const handleClickProfile = event => {
@@ -153,6 +156,12 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseProfile}
                       className={dropdownItem}
                     >
+                      {user.username}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleCloseProfile}
+                      className={dropdownItem}
+                    >
                       {"Profile"}
                     </MenuItem>
                     <MenuItem
@@ -163,9 +172,13 @@ export default function HeaderLinks(props) {
                     </MenuItem>
                     <Divider light />
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={() => {
+                        userActions.logout()
+                        handleCloseProfile()
+                        window.location.reload(false)
+                      }}
                       className={dropdownItem}
-                    >
+                      >
                       {"Log out"}
                     </MenuItem>
                   </MenuList>

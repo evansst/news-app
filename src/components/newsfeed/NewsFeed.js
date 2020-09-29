@@ -8,8 +8,8 @@ import NewsCard from './NewsCard';
 
 
 const NewsFeed = props => {
-  const { posts, user } = props
   const classes = useStyles()
+  const { posts } = props
 
   return (
     <Grid
@@ -19,13 +19,16 @@ const NewsFeed = props => {
       spacing={3}
     >
 
-        {posts.map(post => {
-          return (
-            <Grid item  key={post.url}>
-              <NewsCard post={post} user={user}/>
-            </Grid>
-          )
-        })}
+        {posts 
+          ? posts.map(post => {
+            return (
+              <Grid item  key={post.url}>
+                <NewsCard post={post} />
+              </Grid>
+            )
+          })
+          : null
+        }
     </Grid>
   );
 };

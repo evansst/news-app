@@ -1,58 +1,47 @@
 import React, { useState } from 'react';
 import { ReactTinyLink } from 'react-tiny-link'
+import { useSelector } from 'react-redux';
+
+import { newVote } from 'helpers/voteRequestHelper'
 
 import { dangerColor } from 'assets/jss/material-dashboard-pro-react'
-
-import { makeStyles } from '@material-ui/core/styles';
-
 import Card from 'components/Card/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-
-import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 // import ShareIcon from '@material-ui/icons/Share';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import { upVoteURL } from '../../helpers/requestHelper';
 import { Menu, MenuItem } from '@material-ui/core';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { newFavorite } from 'helpers/favoriteRequestHelper';
+
+
 
 
 const NewsCard = props => {
-  const { post, user } = props
   const classes = useStyles();
-
+  const user = useSelector(state => state.authentication.user.user)
+  const [post, setPost] = useState(props.post)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
   const handleUpVoteClick = () => {
-    console.log('up-vote clicked!')
-    // fetch(upVoteURL, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //   },
-    //   body: {
-    //     up_vote: {
-    //       user_id: user.id,
-    //       post_id: post.id
-    //     }
-    //   }
-    // }) 
+    setPost(newVote(user)(post)('up'))
   }
-
+  
   const handleDownVoteClick = () => {
-    console.log('down-vote clicked!')
+    setPost(newVote(user)(post)('down'))
   }
 
   const handleFavoriteClick = () => {
-    console.log('favorite clicked!')
+    setPost(newFavorite(user)(post))
   }
 
   const handleMoreClick = (event) => {
@@ -95,6 +84,17 @@ const NewsCard = props => {
               }}>
                 Report
               </MenuItem>
+              {post.user_id === user.id
+                ? (
+                  <MenuItem key='remove' onClick={() => {
+                    handleMoreClose()
+                    //delete most
+                  }}>
+                    Delete
+                  </MenuItem>
+                )
+                : null
+              }
             </Menu>
           </>
         }
@@ -110,23 +110,47 @@ const NewsCard = props => {
            minLine={3}
           />
        </CardContent>
-       <CardActions justify="space-between">
+       <CardActions disableSpacing={true} justify="space-between">
          <div>
-          <IconButton aria-label="up vote" onClick={handleUpVoteClick}>
+          <IconButton
+            aria-label="up vote"
+            onClick={handleUpVoteClick}
+            color={
+              post.up_votes.find(up_vote => up_vote.user_id === user.id)
+                ? "secondary"
+                : "default"
+            }
+          >
             <small>{post.up_votes.length}</small>
             <KeyboardArrowUp />
           </IconButton>
          </div>
 
         <div>
-          <IconButton aria-label="down vote" onClick={handleDownVoteClick}>
+          <IconButton
+            aria-label="down vote"
+            onClick={handleDownVoteClick}
+            color={
+              post.down_votes.find(down_vote => down_vote.user_id === user.id)
+                ? "secondary"
+                : "default"
+            }
+          >
             <KeyboardArrowDown />
             <small>{post.down_votes.length}</small>
           </IconButton>
         </div>
 
         <div>
-          <IconButton aria-label="add to favorites" style={{ margineLeft: 'auto' }} onClick={handleFavoriteClick}>
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleFavoriteClick}
+            color={
+              post.favorites.find(favorite => favorite.user_id === user.id)
+                ? "secondary"
+                : "default"
+            }
+          >
             <FavoriteIcon />
           </IconButton>
         </div>
@@ -139,7 +163,7 @@ export default NewsCard;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 600,
+    maxWidth: 475,
   },
   media: {
     height: 0,

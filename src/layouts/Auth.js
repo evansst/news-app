@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, createRef } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
+import { userActions } from '_actions'
+
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,15 +21,16 @@ const useStyles = makeStyles(styles);
 
 export default function Pages(props) {
   const { ...rest } = props;
-  // ref for the wrapper div
-  const wrapper = React.createRef();
-  // styles
+  const wrapper = createRef();
   const classes = useStyles();
-  React.useEffect(() => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     document.body.style.overflow = "unset";
+    dispatch(userActions.logout())
     // Specify how to clean up after this effect:
     return function cleanup() {};
-  });
+  },[dispatch]);
   const getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.collapse) {

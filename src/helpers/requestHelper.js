@@ -2,6 +2,8 @@ export const baseURL = 'http://localhost:3000'
 export const usersURL = `${baseURL}/users`
 export const postsURL = `${baseURL}/posts`
 export const upVoteURL = `${baseURL}/up_votes`
+export const downVoteURL = `${baseURL}/down_votes`
+export const favoritesURL = `${baseURL}/favorites`
 export const loginURL = `${baseURL}/login`
 
 export const parseJSON = (response) => response.json()
@@ -56,7 +58,7 @@ export async function createUser(event) {
 
 
 export function checkResponse(response) {
-  const { user, token, message } = response;
+  const { user, token } = response;
 
   if(user) saveUser(user)(token)
   return response;

@@ -106,7 +106,7 @@ class Sidebar extends React.Component {
   createLinks = routes => {
     const { classes, color, rtlActive } = this.props;
     return routes.map((prop, key) => {
-      if (prop.redirect) {
+      if (prop.redirect || !prop.sidebar) {
         return null;
       }
       if (prop.collapse) {
@@ -378,14 +378,14 @@ class Sidebar extends React.Component {
       <div className={logoClasses}>
         <a
           href=""
-          target="_blank"
+          target=""
           className={logoMini}
         >
           <img src={logo} alt="logo" className={classes.img} />
         </a>
         <a
           href=""
-          target="_blank"
+          target=""
           className={logoNormal}
         >
           {logoText}

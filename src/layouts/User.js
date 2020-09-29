@@ -1,6 +1,7 @@
 import React, { useState, createRef, useEffect } from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -8,6 +9,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
 
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
@@ -15,9 +17,6 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
-
-import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
-import { getUser } from "../helpers/requestHelper";
 
 var ps;
 
@@ -29,10 +28,10 @@ export default function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [miniActive, setMiniActive] = useState(false);
   // const [image, setImage] = useState(require("assets/img/sidebar-2.jpg"));
-  const [logo] = React.useState(require("assets/img/logo-white (1).png"));
+  const [logo] = useState(require("assets/img/logo-white (1).png"));
   // const [hasImage, setHasImage] = useState(true);
 
-  const [user, setUser] = useState(getUser())
+  const user = useSelector(state => state.authentication.user)
 
   // styles
   const classes = useStyles();
@@ -48,8 +47,6 @@ export default function Dashboard(props) {
   const mainPanel = createRef();
 
   useEffect(() => {
-    console.log(user)
-
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
         suppressScrollX: true,
@@ -101,6 +98,7 @@ export default function Dashboard(props) {
       if (prop.layout === "/user") {
         return (
           <Route
+            user={user}
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}

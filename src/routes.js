@@ -1,7 +1,10 @@
-import { DynamicFeed, Bookmark, PostAdd, Person, PersonAdd } from "@material-ui/icons";
+import { DynamicFeed, Bookmark, PostAdd, Person, PersonAdd, LibraryBooks } from "@material-ui/icons";
+import FavoritesPage from "views/FavoritesPage";
 import HomePage from "views/HomePage"
 import LoginPage from "views/LoginPage"
+import NewPostPage from "views/NewPostPage";
 import RegisterPage from "views/RegisterPage"
+import YourPostsPage from "views/YourPostsPage";
 
 
 const dashRoutes = [
@@ -11,30 +14,42 @@ const dashRoutes = [
     icon: DynamicFeed,
     component: HomePage,
     layout: "/user",
+    sidebar: true,
   },{
     path: "/favorites",
-    name: "Favorites",
+    name: "Saved Posts",
     icon: Bookmark,
-    component: null,
+    component: FavoritesPage,
     layout: "/user",
+    sidebar: true,
   },{
-    path: "/post",
-    name: "Post Content",
-    icon: PostAdd,
-    component: null,
+    path: "/posts",
+    name: "Your Posts",
+    icon: LibraryBooks,
+    component: YourPostsPage,
     layout: "/user",
+    sidebar: true,
+  },{
+    path: "/new_post",
+    name: "New Post",
+    icon: PostAdd,
+    component: NewPostPage,
+    layout: "/user",
+    sidebar: true,
   },{
     path: "/login",
     name: "Log In",
     icon: Person,
     component: LoginPage,
     layout: "/auth",
+    sidebar: false,
   },{
     path: "/register",
     name: "Register",
     icon: PersonAdd,
     component: RegisterPage,
-    layout: "/auth"
+    layout: "/auth",
+    sidebar: false,
   }
 ]
 

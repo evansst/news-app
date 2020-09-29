@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { userActions } from '_actions';
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
-
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -19,24 +18,45 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
-import { login } from "helpers/requestHelper"
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
 import { People } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage() {
-  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  React.useEffect(() => {
-    setCardAnimation("");
-  },[]);
+export default function LoginPage(props) {
+  const { history } = props
+  const [cardAnimaton, setCardAnimation] = useState("cardHidden");
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+  })
+  // const [submitted, setSubmitted] = useState(false)
+  const { username, password } = inputs
+  // const loggingIn = useSelector(state => state.authentication.loggingIn)
+  const dispatch = useDispatch();
+  const location = useLocation();
   const classes = useStyles();
+
+  useEffect(() => {
+    setCardAnimation("");
+    dispatch(userActions.logout())
+  }, [dispatch]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInputs(inputs => ({ ...inputs, [name]: value }));
+}
 
   const submitForm = event => {
     event.preventDefault();
-    login(event)
-      .then((response) => console.log(response))
+
+    // setSubmitted(true)
+    if (username && password) {
+      // get return url from location state or default to home page
+      const { from } = location.state || { from: { pathname: "/" } };
+      dispatch(userActions.login(username, password, from, history));
+  }
   }
 
   return (
@@ -56,6 +76,7 @@ export default function LoginPage() {
                 <CustomInput
                   labelText="Username"
                   id="username"
+                  onChange={handleChange}
                   formControlProps={{
                     fullWidth: true
                   }}
@@ -73,6 +94,7 @@ export default function LoginPage() {
                 <CustomInput
                   labelText="Password"
                   id="password"
+                  onChange={handleChange}
                   formControlProps={{
                     fullWidth: true
                   }}

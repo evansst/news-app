@@ -3,8 +3,6 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
@@ -14,7 +12,6 @@ import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
-import Check from "@material-ui/icons/Check";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -30,18 +27,7 @@ import styles from "assets/jss/material-dashboard-pro-react/views/registerPageSt
 const useStyles = makeStyles(styles);
 
 export default function RegisterPage() {
-  const [checked, setChecked] = React.useState([]);
-  const handleToggle = value => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-  };
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -72,21 +58,7 @@ export default function RegisterPage() {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={8} md={5}>
-                  {/* <div className={classes.center}>
-                    <Button justIcon round color="twitter">
-                      <i className="fab fa-twitter" />
-                    </Button>
-                    {` `}
-                    <Button justIcon round color="dribbble">
-                      <i className="fab fa-dribbble" />
-                    </Button>
-                    {` `}
-                    <Button justIcon round color="facebook">
-                      <i className="fab fa-facebook-f" />
-                    </Button>
-                    {` `}
-                    <h4 className={classes.socialTitle}>or be classical</h4>
-                  </div> */}
+
                   <form className={classes.form}>
                     <CustomInput
                       formControlProps={{
@@ -141,32 +113,7 @@ export default function RegisterPage() {
                         placeholder: "Password..."
                       }}
                     />
-                    {/* <FormControlLabel
-                      classes={{
-                        root: classes.checkboxLabelControl,
-                        label: classes.checkboxLabel
-                      }}
-                      control={
-                        <Checkbox
-                          tabIndex={-1}
-                          onClick={() => handleToggle(1)}
-                          checkedIcon={
-                            <Check className={classes.checkedIcon} />
-                          }
-                          icon={<Check className={classes.uncheckedIcon} />}
-                          classes={{
-                            checked: classes.checked,
-                            root: classes.checkRoot
-                          }}
-                        />
-                      }
-                      label={
-                        <span>
-                          I agree to the{" "}
-                          <a href="#pablo">terms and conditions</a>.
-                        </span>
-                      }
-                    /> */}
+                    
                     <div className={classes.center}>
                       <Button round color="primary">
                         Get started
