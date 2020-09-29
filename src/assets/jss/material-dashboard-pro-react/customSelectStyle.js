@@ -1,6 +1,6 @@
 import {
-  primaryColor,
-  primaryBoxShadow,
+  dangerColor,
+  dangerBoxShadow,
   whiteColor,
   blackColor,
   grayColor,
@@ -35,7 +35,7 @@ const customSelectStyle = {
         borderBottomColor: grayColor[4] + "!important"
       },
       "&:after": {
-        borderBottomColor: primaryColor[0] + "!important"
+        borderBottomColor: dangerColor[0] + "!important"
       }
     }
   },
@@ -82,21 +82,21 @@ const customSelectStyle = {
     color: grayColor[7],
     paddingRight: "30px",
     "&:hover": {
-      backgroundColor: primaryColor[0],
+      backgroundColor: dangerColor[0],
       color: whiteColor,
-      ...primaryBoxShadow
+      ...dangerBoxShadow
     }
   },
   selectMenuItemSelected: {
-    backgroundColor: primaryColor[0] + "!important",
+    backgroundColor: dangerColor[0] + "!important",
     color: whiteColor
   },
   selectMenuItemSelectedMultiple: {
     backgroundColor: "transparent !important",
     "&:hover": {
-      backgroundColor: primaryColor[0] + "!important",
+      backgroundColor: dangerColor[0] + "!important",
       color: whiteColor,
-      ...primaryBoxShadow,
+      ...dangerBoxShadow,
       "&:after": {
         color: whiteColor
       }

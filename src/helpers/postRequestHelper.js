@@ -1,17 +1,21 @@
-import { authHeader } from "_helpers"
+
 import { postsURL } from "./requestHelper"
 import { userService } from "_services"
 
-export const newPost = (post) => {
-  console.log(post)
+export const newPost = (newPost) => {
   const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(post)
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      post: newPost
+    })
   }
 
   fetch(postsURL, requestOptions)
     .then(handleResponse)
+    .then(console.log)
 }
 
 function handleResponse(response) {
