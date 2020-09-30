@@ -15,7 +15,6 @@ export const newPost = (newPost) => {
 
   fetch(postsURL, requestOptions)
     .then(handleResponse)
-    .then(console.log)
 }
 
 function handleResponse(response) {

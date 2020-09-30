@@ -91,7 +91,7 @@ export default function HeaderLinks(props) {
           justIcon
           round
           className={searchButton}
-          onClick={searchPosts}
+          onClick={() => searchPosts(searchTerm)}
           >
           <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
         </Button>
@@ -105,21 +105,19 @@ export default function HeaderLinks(props) {
               const { value } = event.target
               setSearchTerm(value)
             },
+            value: searchTerm,
             placeholder: "Search",
             inputProps: {
               "aria-label": "Search",
               className: classes.searchInput,
             },
-            id: 'search-input',
             endAdornment: 
               <InputAdornment position="end" >
                 <Close
-                  onClick={() => {
+                    onClick={() => {
                     if(searchTerm) {
                       setSearchTerm('')
-                      document.getElementById('search-input').value = ""
-
-                      searchPosts()
+                      searchPosts('')
                     }
                   }}
                   style={{
@@ -140,9 +138,6 @@ export default function HeaderLinks(props) {
           aria-haspopup="true"
           onClick={handleClickSort}
           className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
-          muiClasses={{
-            label: rtlActive ? classes.labelRTL : ""
-          }}
         >
           <SortIcon
             className={

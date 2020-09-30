@@ -23,6 +23,7 @@ import styles from "assets/jss/material-dashboard-pro-react/components/adminNavb
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbar(props) {
+
   const classes = useStyles();
   const { color, rtlActive, brandText, ...rest } = props;
   const appBarClasses = cx({

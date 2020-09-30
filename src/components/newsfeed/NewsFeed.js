@@ -44,7 +44,7 @@ const NewsFeed = props => {
         return <NewsCard key={post.url} post={post} />
       })
     )
-  
+
     setHasMore(true)
 
   }, [props.posts])

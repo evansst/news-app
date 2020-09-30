@@ -99,7 +99,7 @@ export default function AuthNavbar(props) {
         <Hidden mdUp>
           <div className={classes.flex}>
             <Button href="/" className={classes.title} color="transparent">
-              The Inside Scoop
+              Inside Scoop
             </Button>
           </div>
         </Hidden>

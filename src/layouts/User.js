@@ -15,12 +15,10 @@ import routes from "routes.js";
 import { parseJSON, postsURL } from 'helpers/requestHelper'
 
 
-// var ps;
-
 const useStyles = makeStyles(styles);
 
 export default function UserLayout(props) {
-  const { ...rest } = props;
+
   // states and functions
   const [mobileOpen, setMobileOpen] = useState(false);
   const [miniActive, setMiniActive] = useState(false);
@@ -28,27 +26,25 @@ export default function UserLayout(props) {
   const [allPosts, setAllPosts] = useState([])
   const [posts, setPosts] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [postCount, setPostCount] = useState(null)
 
   const setSearch = (value) => {
     setSearchTerm(value)
   }
 
-  const searchPosts = () => {
-    if(searchTerm){
+  const searchPosts = (value) => {
+    if(value){
+      console.log('filtering!')
       const filteredPosts = allPosts.filter(post => {
         return (
-          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (post.category.toLowerCase().includes(searchTerm))
+          post.title.toLowerCase().includes(value.toLowerCase()) ||
+          (post.description && post.description.toLowerCase().includes(value.toLowerCase())) ||
+          (post.category.toLowerCase().includes(value))
         )
       })
-      filteredPosts.length ? setPostCount('success') : setPostCount('failure')
       setPosts(filteredPosts)
     } else {
       setPosts(allPosts)
     }
-    setPostCount(posts.count)
   }
 
   // styles
@@ -61,6 +57,11 @@ export default function UserLayout(props) {
       [classes.mainPanelWithPerfectScrollbar]:
         navigator.platform.indexOf("Win") > -1
     });
+    
+  const unlisten = props.history.listen((location, action) => {
+    setSearchTerm('')
+    searchPosts('')
+  })
 
   useEffect(() => {
 
@@ -69,15 +70,15 @@ export default function UserLayout(props) {
       .then(parseJSON)
       .then(posts => {
         setPosts(posts)
-        setPostCount(posts.count)
         setAllPosts(posts)
       })
   
     // Specify how to clean up after this effect:
     return function cleanup() {
-
+      unlisten()
     };
-  }, []);
+    // eslint-disable-next-line
+  }, [props.history]);
   // functions for changeing the states from components
 
   const handleDrawerToggle = () => {
@@ -87,7 +88,7 @@ export default function UserLayout(props) {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
   const getActiveRoute = routes => {
-    let activeRoute = "The Inside Scoop";
+    let activeRoute = "Inside Scoop";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].views);
@@ -119,7 +120,6 @@ export default function UserLayout(props) {
                 searchTerm={searchTerm}
                 setSearchTerm={setSearch}
                 searchPosts={searchPosts}
-                postCount={postCount}
                 {...props}
               />
             )}
@@ -142,7 +142,7 @@ export default function UserLayout(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"The Inside Scoop"}
+        logoText={"Inside Scoop"}
         logo={logo}
         // image={image}
         handleDrawerToggle={handleDrawerToggle}
@@ -150,7 +150,7 @@ export default function UserLayout(props) {
         color={"red"}
         bgColor={"black"}
         miniActive={miniActive}
-        {...rest}
+        {...props}
       />
       <div
         id="main-panel"
@@ -165,8 +165,7 @@ export default function UserLayout(props) {
           searchTerm={searchTerm}
           setSearchTerm={setSearch}
           searchPosts={searchPosts}
-          postCount={postCount}
-          {...rest}
+          {...props}
         />
         {getRoute() ? (
           <div id='newsfeed' className={classes.content}>
