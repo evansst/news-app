@@ -17,7 +17,6 @@ import Divider from "@material-ui/core/Divider";
 
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
-import Dashboard from "@material-ui/icons/Dashboard";
 import Search from "@material-ui/icons/Search";
 
 // core components
@@ -85,27 +84,6 @@ export default function HeaderLinks(props) {
       >
         <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
       </Button>
-      <Button
-        color="transparent"
-        simple
-        aria-label="Dashboard"
-        justIcon
-        className={classes.buttonLink}
-
-      >
-        <Dashboard
-          className={
-            classes.headerLinksSvg +
-            " " +
-            (classes.links)
-          }
-        />
-        <Hidden mdUp implementation="css">
-          <span className={classes.linkText}>
-            {"Dashboard"}
-          </span>
-        </Hidden>
-      </Button>
 
       <div className={managerClasses}>
         <Button
@@ -158,6 +136,7 @@ export default function HeaderLinks(props) {
                     >
                       {user.username}
                     </MenuItem>
+                    <Divider />
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={dropdownItem}

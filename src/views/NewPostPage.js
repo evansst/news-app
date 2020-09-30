@@ -131,7 +131,7 @@ const NewPostPage = props => {
                       onChange: event => {
                         const { name, value } = event.target
                         
-                        verifyLength(value, 1, 140)
+                        verifyLength(value, 1, 80)
                           ? setTitleState("success")
                           : setTitleState("error")
 

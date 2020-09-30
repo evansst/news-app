@@ -28,7 +28,7 @@ const App = () => {
             }
             <BrowserRouter>
               <Switch>
-                <PrivateRoute path="/user" component={User} history={history} />
+                <PrivateRoute path="/user" component={User} history={history}/>
                 <Route path="/auth" component={Auth} history={history} />
                 <Redirect from="*" to="/user/newsfeed" />
               </Switch>

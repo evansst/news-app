@@ -1,7 +1,6 @@
 import React, { useState, createRef, useEffect } from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -17,6 +16,8 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import { parseJSON, postsURL } from 'helpers/requestHelper'
+
 
 var ps;
 
@@ -31,7 +32,7 @@ export default function Dashboard(props) {
   const [logo] = useState(require("assets/img/logo-white (1).png"));
   // const [hasImage, setHasImage] = useState(true);
 
-  const user = useSelector(state => state.authentication.user)
+  const [posts, setPosts] = useState([])
 
   // styles
   const classes = useStyles();
@@ -56,6 +57,11 @@ export default function Dashboard(props) {
     }
     window.addEventListener("resize", resizeFunction);
 
+    //fetch all the posts
+    fetch(postsURL)
+      .then(parseJSON)
+      .then(setPosts)
+
     // Specify how to clean up after this effect:
     return function cleanup() {
       if (navigator.platform.indexOf("Win") > -1) {
@@ -63,7 +69,7 @@ export default function Dashboard(props) {
       }
       window.removeEventListener("resize", resizeFunction);
     };
-  });
+  }, []);
   // functions for changeing the states from components
 
   const handleDrawerToggle = () => {
@@ -73,7 +79,7 @@ export default function Dashboard(props) {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
   const getActiveRoute = routes => {
-    let activeRoute = "NewsApp";
+    let activeRoute = "TheScoop";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].views);
@@ -98,9 +104,8 @@ export default function Dashboard(props) {
       if (prop.layout === "/user") {
         return (
           <Route
-            user={user}
             path={prop.layout + prop.path}
-            component={prop.component}
+            render={(props) => <prop.component {...props} posts={posts}/>}
             key={key}
           />
         );
@@ -122,7 +127,7 @@ export default function Dashboard(props) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"NewsApp"}
+        logoText={"TheScoop"}
         logo={logo}
         // image={image}
         handleDrawerToggle={handleDrawerToggle}
@@ -132,7 +137,7 @@ export default function Dashboard(props) {
         miniActive={miniActive}
         {...rest}
       />
-      <div className={mainPanelClasses} ref={mainPanel}>
+      <div id="main-panel" className={mainPanelClasses} ref={mainPanel}>
         <AdminNavbar
           sidebarMinimize={sidebarMinimize.bind(this)}
           miniActive={miniActive}
@@ -141,7 +146,7 @@ export default function Dashboard(props) {
           {...rest}
         />
         {getRoute() ? (
-          <div className={classes.content}>
+          <div id='newsfeed' className={classes.content}>
             <div className={classes.container}>
               <Switch>
                 {getRoutes(routes)}
