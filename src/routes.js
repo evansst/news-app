@@ -10,7 +10,7 @@ import YourPostsPage from "views/YourPostsPage";
 const dashRoutes = [
   {
     path: "/newsfeed",
-    name: "NewsFeed",
+    name: "News Feed",
     icon: DynamicFeed,
     component: HomePage,
     layout: "/user",

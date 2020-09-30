@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
 
 
 // @material-ui/core components
@@ -14,10 +13,14 @@ import Grow from "@material-ui/core/Grow";
 import Hidden from "@material-ui/core/Hidden";
 import Popper from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
+import InputAdornment from "@material-ui/core/InputAdornment"
+
 
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Search from "@material-ui/icons/Search";
+import SortIcon from '@material-ui/icons/Sort';
+
 
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -25,13 +28,17 @@ import Button from "components/CustomButtons/Button.js";
 
 import { userActions } from '_actions'
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.js";
+import { Close } from "@material-ui/icons";
+import { grayColor } from "assets/jss/material-dashboard-pro-react";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
-  const user = useSelector(state => state.authentication.user.user)
+  const { searchTerm, searchPosts, setSearchTerm, rtlActive } = props
   
-  const [openProfile, setOpenProfile] = React.useState(null);
+  const [openProfile, setOpenProfile] = useState(null);
+  const [openSort, setOpenSort] = useState(null)
+
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
@@ -42,8 +49,20 @@ export default function HeaderLinks(props) {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+
+  const handleClickSort = event => {
+    if (openSort && openSort.contains(event.target)) {
+      setOpenSort(null);
+    } else {
+      setOpenSort(event.currentTarget);
+    }
+  };
+  const handleCloseSort = () => {
+    setOpenSort(null);
+  };
+
+
   const classes = useStyles();
-  const { rtlActive } = props;
   const searchButton =
     classes.top +
     " " +
@@ -61,29 +80,124 @@ export default function HeaderLinks(props) {
   const managerClasses = classNames({
     [classes.managerClasses]: true
   });
+
   return (
     <div className={wrapper}>
-      <CustomInput
-        formControlProps={{
-          className: classes.top + " " + classes.search
-        }}
-        inputProps={{
-          placeholder: "Search",
-          inputProps: {
-            "aria-label": "Search",
-            className: classes.searchInput
-          }
-        }}
-      />
-      <Button
-        color="white"
-        aria-label="edit"
-        justIcon
-        round
-        className={searchButton}
-      >
-        <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
-      </Button>
+        <Button
+          id="search-button"
+          type="submit"
+          color="white"
+          aria-label="edit"
+          justIcon
+          round
+          className={searchButton}
+          onClick={searchPosts}
+          >
+          <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
+        </Button>
+        <span style={{ padding: '3px' }}/>
+        <CustomInput
+          formControlProps={{
+            className: classes.top + " " + classes.search
+          }}
+          inputProps={{
+            onChange: event => {
+              const { value } = event.target
+              setSearchTerm(value)
+            },
+            placeholder: "Search",
+            inputProps: {
+              "aria-label": "Search",
+              className: classes.searchInput,
+            },
+            id: 'search-input',
+            endAdornment: 
+              <InputAdornment position="end" >
+                <Close
+                  onClick={() => {
+                    if(searchTerm) {
+                      setSearchTerm('')
+                      document.getElementById('search-input').value = ""
+
+                      searchPosts()
+                    }
+                  }}
+                  style={{
+                    color: grayColor[3],
+                    cursor: 'pointer'
+                  }}
+                  />
+              </InputAdornment>
+          }}
+          />
+
+<div className={managerClasses}>
+        <Button
+          color="transparent"
+          justIcon
+          aria-label="Notifications"
+          aria-owns={openSort ? "notification-menu-list" : null}
+          aria-haspopup="true"
+          onClick={handleClickSort}
+          className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
+          muiClasses={{
+            label: rtlActive ? classes.labelRTL : ""
+          }}
+        >
+          <SortIcon
+            className={
+              classes.headerLinksSvg +
+              " " +
+              (rtlActive
+                ? classes.links + " " + classes.linksRTL
+                : classes.links)
+            }
+          />
+          <Hidden mdUp implementation="css">
+            <span
+              onClick={handleClickSort}
+              className={classes.linkText}
+            >
+              {rtlActive ? "إعلام" : "Notification"}
+            </span>
+          </Hidden>
+        </Button>
+        <Popper
+          open={Boolean(openSort)}
+          anchorEl={openSort}
+          transition
+          disablePortal
+          placement="bottom"
+          className={classNames({
+            [classes.popperClose]: !openSort,
+            [classes.popperResponsive]: true,
+            [classes.popperNav]: true
+          })}
+        >
+          {({ TransitionProps }) => (
+            <Grow
+              {...TransitionProps}
+              id="notification-menu-list"
+              style={{ transformOrigin: "0 0 0" }}
+            >
+              <Paper className={classes.dropdown}>
+                <ClickAwayListener onClickAway={handleCloseSort}>
+                  <MenuList role="menu">
+                    <MenuItem
+                      onClick={handleCloseSort}
+                      className={dropdownItem}
+                    >
+                      {rtlActive
+                        ? "إجلاء أوزار الأسيوي حين بل, كما"
+                        : "Mike John responded to your email"}
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
 
       <div className={managerClasses}>
         <Button
@@ -130,13 +244,6 @@ export default function HeaderLinks(props) {
               <Paper className={classes.dropdown}>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={dropdownItem}
-                    >
-                      {user.username}
-                    </MenuItem>
-                    <Divider />
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={dropdownItem}

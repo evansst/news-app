@@ -24,7 +24,7 @@ const useStyles = makeStyles(styles);
 
 export default function AdminNavbar(props) {
   const classes = useStyles();
-  const { color, rtlActive, brandText } = props;
+  const { color, rtlActive, brandText, ...rest } = props;
   const appBarClasses = cx({
     [" " + classes[color]]: color
   });
@@ -67,7 +67,7 @@ export default function AdminNavbar(props) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          <AdminNavbarLinks rtlActive={rtlActive} />
+          <AdminNavbarLinks rtlActive={rtlActive} {...rest}/>
         </Hidden>
         <Hidden mdUp implementation="css">
           <Button

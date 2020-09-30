@@ -5,6 +5,7 @@ import NewsFeed from '../components/newsfeed/NewsFeed';
 
 const HomePage = props => {
 
+
   return (
     <div>
       <NewsFeed {...props}/>

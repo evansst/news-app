@@ -1,10 +1,6 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
-
-// creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,20 +15,41 @@ import routes from "routes.js";
 import { parseJSON, postsURL } from 'helpers/requestHelper'
 
 
-var ps;
+// var ps;
 
 const useStyles = makeStyles(styles);
 
-export default function Dashboard(props) {
+export default function UserLayout(props) {
   const { ...rest } = props;
   // states and functions
   const [mobileOpen, setMobileOpen] = useState(false);
   const [miniActive, setMiniActive] = useState(false);
-  // const [image, setImage] = useState(require("assets/img/sidebar-2.jpg"));
   const [logo] = useState(require("assets/img/logo-white (1).png"));
-  // const [hasImage, setHasImage] = useState(true);
-
+  const [allPosts, setAllPosts] = useState([])
   const [posts, setPosts] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [postCount, setPostCount] = useState(null)
+
+  const setSearch = (value) => {
+    setSearchTerm(value)
+  }
+
+  const searchPosts = () => {
+    if(searchTerm){
+      const filteredPosts = allPosts.filter(post => {
+        return (
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (post.description && post.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (post.category.toLowerCase().includes(searchTerm))
+        )
+      })
+      filteredPosts.length ? setPostCount('success') : setPostCount('failure')
+      setPosts(filteredPosts)
+    } else {
+      setPosts(allPosts)
+    }
+    setPostCount(posts.count)
+  }
 
   // styles
   const classes = useStyles();
@@ -44,30 +61,21 @@ export default function Dashboard(props) {
       [classes.mainPanelWithPerfectScrollbar]:
         navigator.platform.indexOf("Win") > -1
     });
-  // ref for main panel div
-  const mainPanel = createRef();
 
   useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
 
     //fetch all the posts
     fetch(postsURL)
       .then(parseJSON)
-      .then(setPosts)
-
+      .then(posts => {
+        setPosts(posts)
+        setPostCount(posts.count)
+        setAllPosts(posts)
+      })
+  
     // Specify how to clean up after this effect:
     return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-      }
-      window.removeEventListener("resize", resizeFunction);
+
     };
   }, []);
   // functions for changeing the states from components
@@ -79,7 +87,7 @@ export default function Dashboard(props) {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
   const getActiveRoute = routes => {
-    let activeRoute = "TheScoop";
+    let activeRoute = "The Inside Scoop";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].views);
@@ -105,7 +113,16 @@ export default function Dashboard(props) {
         return (
           <Route
             path={prop.layout + prop.path}
-            render={(props) => <prop.component {...props} posts={posts}/>}
+            render={(props) => (
+              <prop.component
+                posts={posts}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearch}
+                searchPosts={searchPosts}
+                postCount={postCount}
+                {...props}
+              />
+            )}
             key={key}
           />
         );
@@ -117,17 +134,15 @@ export default function Dashboard(props) {
   const sidebarMinimize = () => {
     setMiniActive(!miniActive);
   };
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
+
+
+  // clear anything in the search bar
 
   return (
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"TheScoop"}
+        logoText={"The Inside Scoop"}
         logo={logo}
         // image={image}
         handleDrawerToggle={handleDrawerToggle}
@@ -137,12 +152,20 @@ export default function Dashboard(props) {
         miniActive={miniActive}
         {...rest}
       />
-      <div id="main-panel" className={mainPanelClasses} ref={mainPanel}>
+      <div
+        id="main-panel"
+        className={mainPanelClasses}
+        // ref={mainPanel}
+      >
         <AdminNavbar
           sidebarMinimize={sidebarMinimize.bind(this)}
           miniActive={miniActive}
           brandText={getActiveRoute(routes)}
           handleDrawerToggle={handleDrawerToggle}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearch}
+          searchPosts={searchPosts}
+          postCount={postCount}
           {...rest}
         />
         {getRoute() ? (

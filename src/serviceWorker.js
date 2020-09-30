@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-export const APPNAME = 'TheScoop'
+export const APPNAME = 'The Inside Scoop'
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||

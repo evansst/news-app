@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 
 const FavoritesPage = props => {
-  const { posts, ...rest} = props
+  const { posts, setSearchTerm, searchPosts, ...rest} = props
   const [favorites, setFavorites] = useState([])
   const user = useSelector(state => state.authentication.user.user)
 
@@ -15,6 +15,8 @@ const FavoritesPage = props => {
       return (post.favorites.find(favorite => favorite.user_id === user.id))
     })
     setFavorites(favorites)
+
+
   },[user, posts])
 
 

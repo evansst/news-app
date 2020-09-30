@@ -37,6 +37,7 @@ const useFormStyles = makeStyles(formStyles)
 const useSelectStyles = makeStyles(selectStyles)
 
 const NewPostPage = props => {
+  const { history } = props
   const classes = useFormStyles()
   const selectFormClasses = useSelectStyles()
   const user = useSelector(state => state.authentication.user.user)
@@ -100,7 +101,10 @@ const NewPostPage = props => {
   }
   
   const submitForm = () => {
-    if (verifyAll()) newPost(inputs)
+    if (verifyAll()){
+      newPost(inputs)
+      history.push('/user/posts')
+    } 
   }
 
   return (
