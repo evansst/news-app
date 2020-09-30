@@ -9,7 +9,10 @@ import { contentTypes } from 'helpers/contentTypes'
 import Close from "@material-ui/icons/Close"
 import TitleIcon from '@material-ui/icons/Title'
 import HttpIcon from '@material-ui/icons/Http'
+import PermMediaIcon from '@material-ui/icons/PermMedia';
+import CategoryIcon from '@material-ui/icons/Category';
 
+import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
 import Select from "@material-ui/core/Select"
@@ -29,7 +32,6 @@ import formStyles from "assets/jss/material-dashboard-pro-react/views/validation
 import selectStyles from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.js"
 
 import { newPost } from 'helpers/postRequestHelper'
-import { Container } from '@material-ui/core'
 
 const useFormStyles = makeStyles(formStyles)
 const useSelectStyles = makeStyles(selectStyles)
@@ -102,215 +104,230 @@ const NewPostPage = props => {
   }
 
   return (
-    <Container fluid justify="center">
-      <Card style={{ width: '60vw' }}>
-        <CardHeader color="danger">
-          <h4 className={classes.cardTitle}>Post</h4>
-        </CardHeader>
-        <CardBody>
-          <form>
-            <GridContainer justify='center'>
-              <GridItem xs={12} sm={7}>
-                <CustomInput
-                  success={titleState === "success"}
-                  error={titleState === "error"}
-                  id="required"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    onChange: event => {
-                      const { name, value } = event.target
-                      
-                      verifyLength(value, 1, 140)
-                        ? setTitleState("success")
-                        : setTitleState("error")
+    <GridContainer justify="center">
+      <GridItem xs={12} sm={12} md={10} lg={8} xl={8} >
+        <Card>
+          <CardHeader color="danger">
+            <h4 className={classes.cardTitle}>Post</h4>
+          </CardHeader>
+          <CardBody>
+            <form>
+              <GridContainer justify='center'>
+                <GridItem xs={2} sm={2}>
+                  <FormLabel className={classes.labelHorizontal}>
+                    <TitleIcon />
+                  </FormLabel>
+                </GridItem>
+                <GridItem xs={10} sm={8}>
+                  <CustomInput
+                    success={titleState === "success"}
+                    error={titleState === "error"}
+                    id="required"
+                    labelText="Title"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      onChange: event => {
+                        const { name, value } = event.target
+                        
+                        verifyLength(value, 1, 140)
+                          ? setTitleState("success")
+                          : setTitleState("error")
 
-                      handleChange(name, value)
-                    },
-                    type: "text",
-                    name: 'title',
-                    placeholder: 'Title...',
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        className={classes.inputAdornment}
-                      >
-                        <TitleIcon className={classes.inputAdornmentIcon} />
-                      </InputAdornment>
-                    ),
-                    endAdornment:
-                      titleState === "error" ? (
-                        <InputAdornment position="end">
-                          <Close className={classes.danger} />
-                        </InputAdornment>
-                      ) : (
-                        undefined
-                      )
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={7}>
-                <CustomInput
-                  success={urlState === "success"}
-                  error={urlState === "error"}
-                  id="url"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    onChange: event => {
-                      const { name, value } = event.target
-                      verifyUrl(value)
-                        ? seturlState("success")
-                        : seturlState("error")
+                        handleChange(name, value)
+                      },
+                      type: "text",
+                      name: 'title',
+                      endAdornment:
+                        titleState === "error" ? (
+                          <InputAdornment position="end">
+                            <Close className={classes.danger} />
+                          </InputAdornment>
+                        ) : (
+                          undefined
+                        )
+                    }}
+                  />
+                </GridItem>
+                <GridItem sm={2} md={2} lg={2} xl={2} />
+                <GridItem xs={2} sm={2}>
+                  <FormLabel className={classes.labelHorizontal}>
+                    <HttpIcon />
+                  </FormLabel>
+                </GridItem>
+                <GridItem xs={10} sm={8}>
+                  <CustomInput
+                    success={urlState === "success"}
+                    error={urlState === "error"}
+                    labelText="Url"
+                    id="url"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      onChange: event => {
+                        const { name, value } = event.target
+                        verifyUrl(value)
+                          ? seturlState("success")
+                          : seturlState("error")
 
-                      handleChange(name, value)
-                    },
-                    type: "url",
-                    name: "url",
-                    placeholder: "Url...",
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        className={classes.inputAdornment}
+                        handleChange(name, value)
+                      },
+                      type: "url",
+                      name: "url",
+                      endAdornment:
+                        urlState === "error" ? (
+                          <InputAdornment position="end">
+                            <Close className={classes.danger} />
+                          </InputAdornment>
+                        ) : (
+                          undefined
+                        )
+                    }}
+                  />
+                </GridItem>
+                <GridItem sm={2} />
+                <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <GridContainer>
+                    <GridItem xs={2} sm={1} md={1} lg={1}>
+                      <FormLabel className={classes.labelHorizontal}>
+                        <CategoryIcon />
+                      </FormLabel>
+                    </GridItem>
+                    <GridItem xs={10} sm={5} md={5} lg={5}>
+                      <FormControl
+                        fullWidth
+                        className={selectFormClasses.selectFormControl}
                       >
-                        <HttpIcon className={classes.inputAdornmentIcon} />
-                      </InputAdornment>
-                    ),
-                    endAdornment:
-                      urlState === "error" ? (
-                        <InputAdornment position="end">
-                          <Close className={classes.danger} />
-                        </InputAdornment>
-                      ) : (
-                        undefined
-                      )
-                  }}
-                />
-              </GridItem>
-
-              <GridItem xs={12} sm={12} md={6}>
-                <GridContainer>
-                  <GridItem xs={12} sm={6} md={5} lg={5}>
-                    <FormControl
-                      fullWidth
-                      className={selectFormClasses.selectFormControl}
-                    >
-                      <InputLabel
-                        htmlFor="category-select"
-                        className={selectFormClasses.selectLabel}
-                      >
-                        Category
-                      </InputLabel>
-                      <Select
-                        MenuProps={{
-                          className: selectFormClasses.selectMenu
-                        }}
-                        classes={{
-                          select: selectFormClasses.select
-                        }}
-                        value={category}
-                        onChange={handleCategory}
-                        inputProps={{
-                          name: "category",
-                          id: "category-select",
-                        }}
-                      >
-                        <MenuItem
-                          disabled
-                          classes={{
-                            root: selectFormClasses.selectMenuItem
-                          }}
+                        <InputLabel
+                          htmlFor="category-select"
+                          className={selectFormClasses.selectLabel}
                         >
                           Category
-                        </MenuItem>
-                        {categories.map(category => {
-                          return (
-                            <MenuItem
-                              key={category}
-                              classes={{
-                                root: selectFormClasses.selectMenuItem,
-                                selected: selectFormClasses.selectMenuItemSelected
-                              }}
-                              value={category}
-                            >
-                              {category}
-                            </MenuItem>
-                          )
-                        })}                 
-                      </Select>
-                    </FormControl>
-                  </GridItem>
-
-                  <GridItem xs={12} sm={6} md={5} lg={5}>
-                    <FormControl
-                      fullWidth
-                      className={selectFormClasses.selectFormControl}
-                    >
-                      <InputLabel
-                        htmlFor="contentType-select"
-                        className={selectFormClasses.selectLabel}
-                      >
-                        Content Type
-                      </InputLabel>
-                      <Select
-                        MenuProps={{
-                          className: selectFormClasses.selectMenu
-                        }}
-                        classes={{
-                          select: selectFormClasses.select
-                        }}
-                        value={contentType}
-                        onChange={handleContentType}
-                        inputProps={{
-                          name: "content_type",
-                          id: "contentType-select",
-                        }}
-                      >
-                        <MenuItem
-                          disabled
+                        </InputLabel>
+                        <Select
+                          MenuProps={{
+                            className: selectFormClasses.selectMenu
+                          }}
                           classes={{
-                            root: selectFormClasses.selectMenuItem
+                            select: selectFormClasses.select
+                          }}
+                          value={category}
+                          onChange={handleCategory}
+                          inputProps={{
+                            name: "category",
+                            id: "category-select",
                           }}
                         >
-                          Content Type
-                        </MenuItem>
-                        {contentTypes.map(contentType => {
-                          return (
-                            <MenuItem
-                              key={contentType}
-                              classes={{
-                                root: selectFormClasses.selectMenuItem,
-                                selected: selectFormClasses.selectMenuItemSelected
-                              }}
-                              value={contentType}
-                            >
-                              {contentType}
-                            </MenuItem>
-                          )
-                        })}                 
-                      </Select>
-                    </FormControl>
-                  </GridItem>
-                  
-                </GridContainer>
-              </GridItem>
+                          <MenuItem
+                            disabled
+                            classes={{
+                              root: selectFormClasses.selectMenuItem
+                            }}
+                          >
+                            Category
+                          </MenuItem>
+                          {categories.map(category => {
+                            return (
+                              <MenuItem
+                                key={category}
+                                classes={{
+                                  root: selectFormClasses.selectMenuItem,
+                                  selected: selectFormClasses.selectMenuItemSelected
+                                }}
+                                value={category}
+                              >
+                                {category}
+                              </MenuItem>
+                            )
+                          })}                 
+                        </Select>
+                      </FormControl>
+                    </GridItem>
 
+                    <GridItem xs={2} sm={1} md={1} lg={1}>
+                      <FormLabel className={classes.labelHorizontal}>
+                        <PermMediaIcon />
+                      </FormLabel>
+                    </GridItem>
+
+                    <GridItem xs={10} sm={5} md={5} lg={5}>
+                      <FormControl
+                        fullWidth
+                        className={selectFormClasses.selectFormControl}
+                      >
+                        <InputLabel
+                          htmlFor="contentType-select"
+                          className={selectFormClasses.selectLabel}
+                        >
+                          Content Type
+                        </InputLabel>
+                        <Select
+                          MenuProps={{
+                            className: selectFormClasses.selectMenu
+                          }}
+                          classes={{
+                            select: selectFormClasses.select
+                          }}
+                          value={contentType}
+                          onChange={handleContentType}
+                          inputProps={{
+                            name: "content_type",
+                            id: "contentType-select",
+                          }}
+                        >
+                          <MenuItem
+                            disabled
+                            classes={{
+                              root: selectFormClasses.selectMenuItem
+                            }}
+                          >
+                            Content Type
+                          </MenuItem>
+                          {contentTypes.map(contentType => {
+                            return (
+                              <MenuItem
+                                key={contentType}
+                                classes={{
+                                  root: selectFormClasses.selectMenuItem,
+                                  selected: selectFormClasses.selectMenuItemSelected
+                                }}
+                                value={contentType}
+                              >
+                                {contentType}
+                              </MenuItem>
+                            )
+                          })}                 
+                        </Select>
+                      </FormControl>
+                    </GridItem>
+                  </GridContainer>
+                </GridItem>
+              </GridContainer>
+            </form>
+          </CardBody>
+          <CardFooter className={classes.justifyContentCenter}>
+            <GridContainer >
+              <GridItem xs={6} s={6} md={6} lg={6} xl={6}>
+                <Button
+                  color={verifyAll() ? "danger": null}
+                  disabled={!verifyAll()}
+                  onClick={submitForm}
+                >
+                  Submit
+                </Button>
+              </GridItem>
+              <GridItem xs={6} s={6} md={6} lg={6} xl={6}>
+                <Button onClick={() => props.history.goBack()}>
+                  Cancel
+                </Button>
+              </GridItem>
             </GridContainer>
-          </form>
-        </CardBody>
-        <CardFooter className={classes.justifyContentCenter}>
-          <Button
-            color={verifyAll() ? "danger": null}
-            disabled={!verifyAll()}
-            onClick={submitForm}
-          >
-            Submit
-          </Button>
-        </CardFooter>
-      </Card>
-    </Container>
+          </CardFooter>
+        </Card>
+      </GridItem>
+    </GridContainer>
   )
 }
 

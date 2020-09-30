@@ -40,10 +40,10 @@ const customSelectStyle = {
     }
   },
   selectLabel: {
-    fontSize: "12px",
-    textTransform: "uppercase",
-    color: grayColor[2] + " !important",
-    top: "8px"
+    fontSize: "14px",
+    // textTransform: "uppercase",
+    color: grayColor[3] + " !important",
+    top: "10px"
   },
   selectMenu: {
     "& > div > ul": {
