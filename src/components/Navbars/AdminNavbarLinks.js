@@ -173,6 +173,7 @@ export default function HeaderLinks(props) {
                           key={category + 'filter drop down'}
                           onClick={() => {
                             setFilterColor('error')
+                            setSortColor('action')
                             filterPosts(category)
                             handleCloseFilter()
                           }}
@@ -355,7 +356,10 @@ export default function HeaderLinks(props) {
           justIcon
           round
           className={searchButton}
-          onClick={() => searchPosts(searchTerm)}
+          onClick={() => {
+            searchPosts(searchTerm)
+            setSortColor('action')
+          }}
           >
           <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
         </Button>
@@ -382,6 +386,8 @@ export default function HeaderLinks(props) {
                     if(searchTerm) {
                       setSearchTerm('')
                       searchPosts('')
+                      setSortColor('action')
+                      setFilterColor('action')
                     }
                   }}
                   style={{
@@ -396,9 +402,10 @@ export default function HeaderLinks(props) {
 
       <div className={managerClasses}>
         <Button
-          color="transparent"
+          color="white"
           aria-label="Person"
           justIcon
+          round
           aria-owns={openProfile ? "profile-menu-list" : null}
           aria-haspopup="true"
           onClick={handleClickProfile}

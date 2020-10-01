@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NewsFeed from '../components/newsfeed/NewsFeed';
+import NewsFeed from '../components/Newsfeed/NewsFeed';
 import { useSelector } from 'react-redux';
 
 

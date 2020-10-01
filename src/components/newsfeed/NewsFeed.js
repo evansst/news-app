@@ -1,12 +1,19 @@
 import { Grid } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Card from 'components/Card/Card';
+
 
 import React, { useState, useEffect } from 'react';
-import NewsCard from './NewsCard';
+import NewsCard from '../Card/NewsCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import BarLoader from 'react-spinners/BarLoader'
 import { dangerColor } from 'assets/jss/material-dashboard-pro-react';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
+import CounterPostCard from 'components/Card/CounterPostCard';
 
 
 
@@ -28,7 +35,7 @@ const NewsFeed = props => {
       setPosts([
         ...posts,
         props.posts.slice(slice, slice + 3).map(post => {
-          return <NewsCard key={post.url} post={post} />
+          return newsCard(post)
         })
       ])
       if(slice >= props.posts.length) setHasMore(false)   
@@ -37,11 +44,49 @@ const NewsFeed = props => {
     }
   }
 
+  const newsCard = (post) => {
+    return (
+      post.counter_post
+      ? (
+        <GridItem key={post.url} xs={12} sm={12} md={12} lg={12} xl={12}>
+          <GridContainer direction="row" justify="center" alignItems="center" >
+            <GridItem xs={12} sm={5}>
+              <NewsCard post={post} />
+            </GridItem>
+            <GridItem xs 
+              style={{
+                display: 'flex',
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <CompareArrowsIcon
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  fontSize: '120px'
+                }} 
+              />
+            </GridItem>
+            <GridItem xs={12} sm={5}>
+              <CounterPostCard post={post.counter_post} />
+            </GridItem>
+          </GridContainer>
+        </GridItem>
+      ) : (
+        <GridItem key={post.url} xs={12} sm={12} md={7} lg={7} xl={5} >
+          <NewsCard  post={post} />
+        </GridItem>
+      )
+    )
+  }
+
 
   useEffect(() => {
     setPosts(
       props.posts.slice(0, 6).map(post => {
-        return <NewsCard key={post.url} post={post} />
+        return newsCard(post)
       })
     )
 
@@ -65,13 +110,12 @@ const NewsFeed = props => {
         </p>
       }
     >
-      <Grid
-        container
+      <GridContainer
         className={classes.root}
         justify='center'
       >
         {posts}
-      </Grid>
+      </GridContainer>
     </InfiniteScroll>
   );
 };

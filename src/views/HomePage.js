@@ -1,5 +1,5 @@
 import React, {  } from 'react';
-import NewsFeed from '../components/newsfeed/NewsFeed';
+import NewsFeed from '../components/Newsfeed/NewsFeed';
 
 
 

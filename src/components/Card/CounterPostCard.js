@@ -27,24 +27,13 @@ import { categoryIcons } from 'helpers/categories'
 
 
 
-const NewsCard = props => {
+const CounterPostCard = props => {
   const classes = useStyles();
   const user = useSelector(state => state.authentication.user.user)
+  // eslint-disable-next-line no-unused-vars
   const [post, setPost] = useState(props.post)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-
-  const handleUpVoteClick = () => {
-    setPost(newVote(user)(post)('up'))
-  }
-  
-  const handleDownVoteClick = () => {
-    setPost(newVote(user)(post)('down'))
-  }
-
-  const handleFavoriteClick = () => {
-    setPost(newFavorite(user)(post))
-  }
 
   const handleMoreClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -55,8 +44,7 @@ const NewsCard = props => {
   }
 
   return (
-    <GridItem xs={12} sm={12} md={7} lg={7} xl={5} >
-      <Card className={classes.root} style={{ maxWidth: '600px' }} >
+      <Card className={classes.root}  >
         <CardHeader
           avatar={
             <Avatar aria-label='title' className={classes.avatar}>
@@ -93,9 +81,9 @@ const NewsCard = props => {
                 </MenuItem>
                 {post.user_id === user.id
                   ? (
-                    <MenuItem key='remove' onClick={() => {
+                    <MenuItem key='delete' onClick={() => {
                       handleMoreClose()
-                      //delete most
+                      //delete 
                     }}>
                       Delete
                     </MenuItem>
@@ -106,11 +94,7 @@ const NewsCard = props => {
             </>
           }
           title={post.title}
-          subheader={
-            post.date_published
-              ? post.date_published.split('T')[0]
-              : post.created_at.split('T')[0]
-          }
+          subheader={"Counter Post"}
         />
         <CardContent>
           <ReactTinyLink
@@ -122,65 +106,17 @@ const NewsCard = props => {
             />
         </CardContent>
           <GridContainer direction="row" justify="space-between">
-            <GridItem xs={3}>
-              <GridContainer justify="space-between"> 
-                <GridItem xs={3}>
-                  <IconButton
-                    aria-label="up vote"
-                    onClick={handleUpVoteClick}
-                    color={
-                      post.up_votes.find(up_vote => up_vote.user_id === user.id)
-                      ? "secondary"
-                      : "default"
-                    }
-                      >
-                    <small style={{ fontSize: '14px' }}>{post.up_votes.length}</small>
-                    <KeyboardArrowUp />
-                  </IconButton>
-
-                </GridItem>
-                <GridItem xs={6}>
-                  <IconButton
-                    aria-label="down vote"
-                    onClick={handleDownVoteClick}
-                    color={
-                      post.down_votes.find(down_vote => down_vote.user_id === user.id)
-                      ? "secondary"
-                      : "default"
-                    }
-                    >
-                    <KeyboardArrowDown />
-                    <small style={{ fontSize: '14px' }}>{post.down_votes.length}</small>
-                  </IconButton>
-
-                </GridItem>
-              </GridContainer>
-            </GridItem>
-            <GridItem xs={3} style={{ display: 'flex', justifyContent: 'flex-end'}}>
-              <IconButton
-                aria-label="add to favorites"
-                onClick={handleFavoriteClick}
-                color={
-                  post.favorites.find(favorite => favorite.user_id === user.id)
-                  ? "secondary"
-                  : "default"
-                }
-                >
-                <FavoriteIcon />
-              </IconButton>
-            </GridItem>
+            <IconButton></IconButton>
           </GridContainer>
         </Card>
-      </GridItem>
   );
 };
 
-export default NewsCard;
+export default CounterPostCard;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // minWidth: 350,
-    // maxWidth: 475,
+    maxWidth: 600,
   },
   media: {
     height: 0,

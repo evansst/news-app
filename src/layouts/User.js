@@ -55,10 +55,9 @@ export default function UserLayout(props) {
   }
 
   const filterPosts = (category) => {
-    console.log('posts filtered!')
-    setPosts(
-      allPosts.filter(post => post.category === category)
-    )
+    searchTerm
+      ? setPosts(posts.filter(post => post.category === category))
+      : setPosts(allPosts.filter(post => post.category === category))
   }
   // styles
   const classes = useStyles();
@@ -82,7 +81,6 @@ export default function UserLayout(props) {
     fetch(postsURL)
       .then(parseJSON)
       .then(posts => {
-        console.log('fetched posts')
         setPosts(posts)
         setAllPosts(posts)
       })
