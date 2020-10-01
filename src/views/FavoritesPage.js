@@ -22,10 +22,7 @@ const FavoritesPage = props => {
 
   return (
     <div>
-      {favorites.length
-        ? <NewsFeed posts={favorites} {...rest}/>
-        : <h3>You haven't saved any posts yet!</h3>
-      }
+      <NewsFeed posts={favorites} {...rest}/>
     </div>
   );
 };

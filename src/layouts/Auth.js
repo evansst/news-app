@@ -31,6 +31,7 @@ export default function Pages(props) {
     // Specify how to clean up after this effect:
     return function cleanup() {};
   },[dispatch]);
+  
   const getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.collapse) {

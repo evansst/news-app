@@ -59,6 +59,10 @@ export default function UserLayout(props) {
       ? setPosts(posts.filter(post => post.category === category))
       : setPosts(allPosts.filter(post => post.category === category))
   }
+
+  const clearFilter = () => {
+    setPosts(allPosts)
+  }
   // styles
   const classes = useStyles();
   const mainPanelClasses =
@@ -81,8 +85,9 @@ export default function UserLayout(props) {
     fetch(postsURL)
       .then(parseJSON)
       .then(posts => {
-        setPosts(posts)
-        setAllPosts(posts)
+        const sortedPosts = posts.sort(sortCallBack['upVotesD'])
+        setPosts(sortedPosts)
+        setAllPosts(sortedPosts)
       })
   
     // Specify how to clean up after this effect:
@@ -178,6 +183,7 @@ export default function UserLayout(props) {
           searchPosts={searchPosts}
           sortPosts={sortPosts}
           filterPosts={filterPosts}
+          clearFilter={clearFilter}
           {...props}
         />
         {getRoute() ? (

@@ -42,6 +42,7 @@ export default function HeaderLinks(props) {
     setSearchTerm,
     sortPosts,
     filterPosts,
+    clearFilter,
     rtlActive,
   } = props
   
@@ -157,7 +158,7 @@ export default function HeaderLinks(props) {
                     <MenuItem
                       onClick={() => {
                         setFilterColor('action')
-
+                        clearFilter()
                         handleCloseFilter()
                       }}
                       className={dropdownItem}
