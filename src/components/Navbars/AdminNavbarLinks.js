@@ -20,6 +20,7 @@ import InputAdornment from "@material-ui/core/InputAdornment"
 import Person from "@material-ui/icons/Person";
 import Search from "@material-ui/icons/Search";
 import SortIcon from '@material-ui/icons/Sort';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 
 // core components
@@ -30,14 +31,25 @@ import { userActions } from '_actions'
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.js";
 import { Close } from "@material-ui/icons";
 import { grayColor } from "assets/jss/material-dashboard-pro-react";
+import { categories, categoryIcons } from "helpers/categories";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
-  const { searchTerm, searchPosts, setSearchTerm, rtlActive } = props
+  const {
+    searchTerm,
+    searchPosts,
+    setSearchTerm,
+    sortPosts,
+    filterPosts,
+    rtlActive,
+  } = props
   
   const [openProfile, setOpenProfile] = useState(null);
   const [openSort, setOpenSort] = useState(null)
+  const [openFilter, setOpenFilter] = useState(null)
+  const [sortColor, setSortColor] = useState('action')
+  const [filterColor, setFilterColor] = useState('action')
 
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
@@ -59,6 +71,17 @@ export default function HeaderLinks(props) {
   };
   const handleCloseSort = () => {
     setOpenSort(null);
+  };
+
+  const handleClickFilter = event => {
+    if (openFilter && openFilter.contains(event.target)) {
+      setOpenFilter(null);
+    } else {
+      setOpenFilter(event.currentTarget);
+    }
+  };
+  const handleCloseFilter = () => {
+    setOpenFilter(null);
   };
 
 
@@ -83,6 +106,247 @@ export default function HeaderLinks(props) {
 
   return (
     <div className={wrapper}>
+      <div className={managerClasses}>
+        <Button
+          color="transparent"
+          justIcon
+          aria-label="Filter By"
+          aria-owns={openSort ? "notification-menu-list" : null}
+          aria-haspopup="true"
+          onClick={handleClickFilter}
+          className={classes.buttonLink}
+        >
+          <FilterListIcon
+            color={filterColor}
+            className={
+              classes.headerLinksSvg +
+              " " +
+              (classes.links)
+            }
+          />
+          <Hidden mdUp implementation="css">
+            <span
+              onClick={handleClickFilter}
+              className={classes.linkText}
+            >
+              {"Filter By"}
+            </span>
+          </Hidden>
+        </Button>
+        <Popper
+          open={Boolean(openFilter)}
+          anchorEl={openFilter}
+          transition
+          disablePortal
+          placement="bottom"
+          className={classNames({
+            [classes.popperClose]: !openFilter,
+            [classes.popperResponsive]: true,
+            [classes.popperNav]: true
+          })}
+        >
+          {({ TransitionProps }) => (
+            <Grow
+              {...TransitionProps}
+              id="filter-menu-list"
+              style={{ transformOrigin: "0 0 0" }}
+            >
+              <Paper className={classes.dropdown}>
+                <ClickAwayListener onClickAway={handleCloseFilter}>
+                  <MenuList role="menu">
+                    <MenuItem
+                      onClick={() => {
+                        setFilterColor('action')
+
+                        handleCloseFilter()
+                      }}
+                      className={dropdownItem}
+                    >
+                      <Close />
+                      <span>   </span>
+                      Clear
+                    </MenuItem>
+                    <Divider/>
+                    {categories.map(category => {
+                      return (
+                        <MenuItem
+                          key={category + 'filter drop down'}
+                          onClick={() => {
+                            setFilterColor('error')
+                            filterPosts(category)
+                            handleCloseFilter()
+                          }}
+                          className={dropdownItem}
+                        >
+                          {categoryIcons[category]}
+                          <span>   </span>
+                          {category}
+                        </MenuItem>
+                      )
+                    })}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
+
+      <div className={managerClasses}>
+        <Button
+          color="transparent"
+          justIcon
+          aria-label="Sort By"
+          aria-owns={openSort ? "notification-menu-list" : null}
+          aria-haspopup="true"
+          onClick={handleClickSort}
+          className={classes.buttonLink}
+        >
+          <SortIcon
+            color={sortColor}
+            className={
+              classes.headerLinksSvg +
+              " " +
+              (classes.links)
+            }
+          />
+          <Hidden mdUp implementation="css">
+            <span
+              onClick={handleClickSort}
+              className={classes.linkText}
+            >
+              {"Sort By"}
+            </span>
+          </Hidden>
+        </Button>
+        <Popper
+          open={Boolean(openSort)}
+          anchorEl={openSort}
+          transition
+          disablePortal
+          placement="bottom"
+          className={classNames({
+            [classes.popperClose]: !openSort,
+            [classes.popperResponsive]: true,
+            [classes.popperNav]: true
+          })}
+        >
+          {({ TransitionProps }) => (
+            <Grow
+              {...TransitionProps}
+              id="sort-menu-list"
+              style={{ transformOrigin: "0 0 0" }}
+            >
+              <Paper className={classes.dropdown}>
+                <ClickAwayListener onClickAway={handleCloseSort}>
+                  <MenuList role="menu">
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('controversyD')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Most Controversial"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('controversyA')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Least Controversial"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('timeD')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Newest"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('timeA')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Oldest"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('upVotesD')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Up Votes (Descending)"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('upVotesA')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Up Votes (Ascending)"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('downVotesD')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Down Votes (Descending)"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('downVotesA')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Down Votes (Ascending)"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('favoritesD')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Most Loved"}
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setSortColor('error')
+                        sortPosts('favoritesA')
+                        handleCloseSort()
+                      }}
+                      className={dropdownItem}
+                    >
+                      {"Least Loved"}
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
         <Button
           id="search-button"
           type="submit"
@@ -128,71 +392,7 @@ export default function HeaderLinks(props) {
               </InputAdornment>
           }}
           />
-
-<div className={managerClasses}>
-        <Button
-          color="transparent"
-          justIcon
-          aria-label="Notifications"
-          aria-owns={openSort ? "notification-menu-list" : null}
-          aria-haspopup="true"
-          onClick={handleClickSort}
-          className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
-        >
-          <SortIcon
-            className={
-              classes.headerLinksSvg +
-              " " +
-              (rtlActive
-                ? classes.links + " " + classes.linksRTL
-                : classes.links)
-            }
-          />
-          <Hidden mdUp implementation="css">
-            <span
-              onClick={handleClickSort}
-              className={classes.linkText}
-            >
-              {rtlActive ? "إعلام" : "Notification"}
-            </span>
-          </Hidden>
-        </Button>
-        <Popper
-          open={Boolean(openSort)}
-          anchorEl={openSort}
-          transition
-          disablePortal
-          placement="bottom"
-          className={classNames({
-            [classes.popperClose]: !openSort,
-            [classes.popperResponsive]: true,
-            [classes.popperNav]: true
-          })}
-        >
-          {({ TransitionProps }) => (
-            <Grow
-              {...TransitionProps}
-              id="notification-menu-list"
-              style={{ transformOrigin: "0 0 0" }}
-            >
-              <Paper className={classes.dropdown}>
-                <ClickAwayListener onClickAway={handleCloseSort}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      onClick={handleCloseSort}
-                      className={dropdownItem}
-                    >
-                      {rtlActive
-                        ? "إجلاء أوزار الأسيوي حين بل, كما"
-                        : "Mike John responded to your email"}
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
+      
 
       <div className={managerClasses}>
         <Button

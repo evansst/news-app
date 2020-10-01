@@ -14,6 +14,9 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import routes from "routes.js";
 import { parseJSON, postsURL } from 'helpers/requestHelper'
 
+import { sortCallBack } from 'helpers/sortHelper'
+
+
 
 const useStyles = makeStyles(styles);
 
@@ -33,7 +36,6 @@ export default function UserLayout(props) {
 
   const searchPosts = (value) => {
     if(value){
-      console.log('filtering!')
       const filteredPosts = allPosts.filter(post => {
         return (
           post.title.toLowerCase().includes(value.toLowerCase()) ||
@@ -47,6 +49,17 @@ export default function UserLayout(props) {
     }
   }
 
+  const sortPosts = (sortBy) => {
+    const sortedPosts = [...posts]
+    setPosts(sortedPosts.sort(sortCallBack[sortBy]))
+  }
+
+  const filterPosts = (category) => {
+    console.log('posts filtered!')
+    setPosts(
+      allPosts.filter(post => post.category === category)
+    )
+  }
   // styles
   const classes = useStyles();
   const mainPanelClasses =
@@ -69,6 +82,7 @@ export default function UserLayout(props) {
     fetch(postsURL)
       .then(parseJSON)
       .then(posts => {
+        console.log('fetched posts')
         setPosts(posts)
         setAllPosts(posts)
       })
@@ -120,6 +134,7 @@ export default function UserLayout(props) {
                 searchTerm={searchTerm}
                 setSearchTerm={setSearch}
                 searchPosts={searchPosts}
+
                 {...props}
               />
             )}
@@ -144,7 +159,6 @@ export default function UserLayout(props) {
         routes={routes}
         logoText={"Inside Scoop"}
         logo={logo}
-        // image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={"red"}
@@ -155,7 +169,6 @@ export default function UserLayout(props) {
       <div
         id="main-panel"
         className={mainPanelClasses}
-        // ref={mainPanel}
       >
         <AdminNavbar
           sidebarMinimize={sidebarMinimize.bind(this)}
@@ -165,6 +178,8 @@ export default function UserLayout(props) {
           searchTerm={searchTerm}
           setSearchTerm={setSearch}
           searchPosts={searchPosts}
+          sortPosts={sortPosts}
+          filterPosts={filterPosts}
           {...props}
         />
         {getRoute() ? (

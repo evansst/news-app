@@ -14,17 +14,17 @@ import StyleIcon from '@material-ui/icons/Style';
 import SportsBasketball from '@material-ui/icons/SportsBasketball';
 
 export const categories = [
-  'Style',
-  'Travel',
-  'Social',
-  'Politics',
-  'Business',
-  'Science',
-  'Art',
   'Sports',
-  'Entertainment',
-  'Health',
+  'Travel',
   'Technology',
+  'Business',
+  'Politics',
+  'Art',
+  'Entertainment',
+  'Science',
+  'Social',
+  'Health',
+  'Style',
 ]
 
 export const categoryIcons = {
