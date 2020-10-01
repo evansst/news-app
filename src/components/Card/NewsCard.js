@@ -24,6 +24,9 @@ import GridItem from 'components/Grid/GridItem';
 
 import { categoryIcons } from 'helpers/categories'
 
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+
 
 
 
@@ -165,7 +168,11 @@ const NewsCard = props => {
                   : "default"
                 }
                 >
-                <FavoriteIcon />
+                  {
+                    post.favorites.find(favorite => favorite.user_id === user.id)
+                      ? <BookmarkIcon/>
+                      : <BookmarkBorderIcon/>
+                  }
               </IconButton>
             </GridItem>
           </GridContainer>

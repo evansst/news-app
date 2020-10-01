@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { ReactTinyLink } from 'react-tiny-link'
 import { useSelector } from 'react-redux';
 
-import { newVote } from 'helpers/voteRequestHelper'
-
 import { dangerColor } from 'assets/jss/material-dashboard-pro-react'
 import Card from 'components/Card/Card';
 
@@ -12,15 +10,15 @@ import CardContent from '@material-ui/core/CardContent';
 
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+
 import { Menu, MenuItem } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { newFavorite } from 'helpers/favoriteRequestHelper';
+
 import GridContainer from 'components/Grid/GridContainer';
-import GridItem from 'components/Grid/GridItem';
+
 
 import { categoryIcons } from 'helpers/categories'
 

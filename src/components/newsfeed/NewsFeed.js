@@ -1,23 +1,16 @@
-import { Grid } from '@material-ui/core';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Card from 'components/Card/Card';
-
-
 import React, { useState, useEffect } from 'react';
-import NewsCard from '../Card/NewsCard';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import BarLoader from 'react-spinners/BarLoader'
-import { dangerColor } from 'assets/jss/material-dashboard-pro-react';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
+import NewsCard from '../Card/NewsCard';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CounterPostCard from 'components/Card/CounterPostCard';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+import BarLoader from 'react-spinners/BarLoader'
 
-
-
+import { makeStyles } from '@material-ui/core/styles';
+import { dangerColor } from 'assets/jss/material-dashboard-pro-react';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 const NewsFeed = props => {
 
@@ -82,19 +75,15 @@ const NewsFeed = props => {
     )
   }
 
-
   useEffect(() => {
     setPosts(
       props.posts.slice(0, 6).map(post => {
         return newsCard(post)
       })
     )
-
     setHasMore(true)
 
   }, [props.posts])
-
-
 
   return (
     <InfiniteScroll
