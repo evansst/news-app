@@ -1,33 +1,40 @@
-import configureStore from './store/config/configureStore.js'
-import React, { useEffect, useState } from 'react';
-// import { Provider } from 'react-redux';
-import AppRouter from './routers/AppRouter.js';
-import { parseJSON, postsURL } from './helpers/requestHelper.js';
-import { CssBaseline } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Route, Switch, Redirect, BrowserRouter, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { PrivateRoute } from '_components';
 
-const store = configureStore();
-store.subscribe(()=>{
-  console.log(store.getState());
-});
+import User from 'layouts/User'
+import Auth from 'layouts/Auth'
+
+import "assets/scss/material-dashboard-pro-react.scss?v=1.9.0";
+
 
 const App = () => {
-  const [posts, setPosts] = useState([])
+  const history = useHistory();
+  const alert = useSelector(state => state.alert);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(postsURL)
-      .then(parseJSON)
-      .then(setPosts)
-  },[])
-  
+
+  }, [dispatch, history]);
+
   return (
-    <div
-      style={{
-        backgroundColor: '#EEEEEE',
-      }}
-    >
-      <CssBaseline />
-      <AppRouter posts={posts}/>
+    <div className="jumbotron">
+      <div className="container">
+        <div className="col-md-8 offset-md-2">
+            {alert.message &&
+                <div className={`alert ${alert.type}`}>{alert.message}</div>
+            }
+            <BrowserRouter>
+              <Switch>
+                <PrivateRoute path="/user" component={User} history={history}/>
+                <Route path="/auth" component={Auth} history={history} />
+                <Redirect from="*" to="/user/newsfeed" />
+              </Switch>
+            </BrowserRouter>
+        </div>
+      </div>
     </div>
   );
 }

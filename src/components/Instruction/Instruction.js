@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
-import GridItem from "components/Grid/GridItem";
+import GridItem from "components/Newsfeed/node_modules/components/Grid/GridItem";
 
 import styles from "assets/jss/material-kit-pro-react/components/instructionStyle.js";
 

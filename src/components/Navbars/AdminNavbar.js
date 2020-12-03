@@ -23,8 +23,9 @@ import styles from "assets/jss/material-dashboard-pro-react/components/adminNavb
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbar(props) {
+
   const classes = useStyles();
-  const { color, rtlActive, brandText } = props;
+  const { color, rtlActive, brandText, ...rest } = props;
   const appBarClasses = cx({
     [" " + classes[color]]: color
   });
@@ -62,12 +63,12 @@ export default function AdminNavbar(props) {
         </Hidden>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button href="#" className={classes.title} color="transparent">
+          <Button href="" className={classes.title} color="transparent">
             {brandText}
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          <AdminNavbarLinks rtlActive={rtlActive} />
+          <AdminNavbarLinks rtlActive={rtlActive} {...rest}/>
         </Hidden>
         <Hidden mdUp implementation="css">
           <Button

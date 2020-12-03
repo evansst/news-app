@@ -21,7 +21,6 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.js";
 
-import avatar from "assets/img/faces/avatar.jpg";
 
 var ps;
 
@@ -48,7 +47,6 @@ class SidebarWrapper extends React.Component {
     const { className, user, headerLinks, links } = this.props;
     return (
       <div className={className} ref={this.sidebarWrapper}>
-        {user}
         {headerLinks}
         {links}
       </div>
@@ -108,7 +106,7 @@ class Sidebar extends React.Component {
   createLinks = routes => {
     const { classes, color, rtlActive } = this.props;
     return routes.map((prop, key) => {
-      if (prop.redirect) {
+      if (prop.redirect || !prop.sidebar) {
         return null;
       }
       if (prop.collapse) {
@@ -349,96 +347,7 @@ class Sidebar extends React.Component {
       cx({
         [classes.photoRTL]: rtlActive
       });
-    var user = (
-      <div className={userWrapperClass}>
-        <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
-        </div>
-        <List className={classes.list}>
-          <ListItem className={classes.item + " " + classes.userItem}>
-            <NavLink
-              to={"#"}
-              className={classes.itemLink + " " + classes.userCollapseButton}
-              onClick={() => this.openCollapse("openAvatar")}
-            >
-              <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
-                secondary={
-                  <b
-                    className={
-                      caret +
-                      " " +
-                      classes.userCaret +
-                      " " +
-                      (this.state.openAvatar ? classes.caretActive : "")
-                    }
-                  />
-                }
-                disableTypography={true}
-                className={itemText + " " + classes.userItemText}
-              />
-            </NavLink>
-            <Collapse in={this.state.openAvatar} unmountOnExit>
-              <List className={classes.list + " " + classes.collapseList}>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "مع" : "MP"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "ملفي" : "My Profile"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "هوع" : "EP"}
-                    </span>
-                    <ListItemText
-                      primary={
-                        rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
-                      }
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "و" : "S"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "إعدادات" : "Settings"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-              </List>
-            </Collapse>
-          </ListItem>
-        </List>
-      </div>
-    );
+
     var links = (
       <List className={classes.list}>{this.createLinks(routes)}</List>
     );
@@ -468,15 +377,15 @@ class Sidebar extends React.Component {
     var brand = (
       <div className={logoClasses}>
         <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
-          target="_blank"
+          href=""
+          target=""
           className={logoMini}
         >
           <img src={logo} alt="logo" className={classes.img} />
         </a>
         <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
-          target="_blank"
+          href=""
+          target=""
           className={logoNormal}
         >
           {logoText}
@@ -518,7 +427,7 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
-              user={user}
+
               headerLinks={<AdminNavbarLinks rtlActive={rtlActive} />}
               links={links}
             />
@@ -544,7 +453,6 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
-              user={user}
               links={links}
             />
             {image !== undefined ? (

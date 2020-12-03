@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 
-import styles from "assets/jss/material-kit-pro-react/components/infoStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/components/infoStyle.js";
 
 const useStyles = makeStyles(styles);
 

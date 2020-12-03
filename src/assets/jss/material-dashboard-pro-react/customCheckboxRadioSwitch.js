@@ -77,7 +77,7 @@ const customCheckboxRadioSwitch = {
     letterSpacing: "unset"
   },
   labelHorizontal: {
-    color: "rgba(" + hexToRgb(blackColor) + ", 0.26)",
+    color: "rgba(" + hexToRgb(blackColor) + ", 0.50)",
     cursor: "pointer",
     display: "inline-flex",
     fontSize: "14px",

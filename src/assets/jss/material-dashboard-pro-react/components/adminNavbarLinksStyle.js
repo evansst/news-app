@@ -22,7 +22,7 @@ const adminNavbarLinksStyle = theme => ({
     }
   },
   searchInput: {
-    paddingTop: "2px"
+    paddingTop: "2px",
   },
   searchRTL: {
     [theme.breakpoints.down("sm")]: {
